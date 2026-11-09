@@ -1,0 +1,8 @@
+out/
+bin/
+.idea/
+*.iml
+*.class
+.vscode/
+.DS_Store
+PROJECT_RULES.md
