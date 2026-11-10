@@ -32,7 +32,7 @@ public class ListTest {
         return text;
     }
 
-    public static void testEmptyList(){
+    private static void testEmptyList(){
         DoublyLinkedList<String> list = new DoublyLinkedList<>();
         check("list is empty", list.isEmpty());
         check("size is 0", list.size() == 0);
@@ -41,8 +41,25 @@ public class ListTest {
         check("size stays 0 after removeFirst", list.size() == 0);
     }
 
+    private static void testAddLast(){
+        DoublyLinkedList<String> list = new DoublyLinkedList<>();
+
+        Node<String> nodeA = list.addLast("A");
+        check("first node is head and tail", list.getHead() == nodeA && list.getTail() == nodeA);
+
+        list.addLast("B");
+        Node <String> nodeC = list.addLast("C");
+        check("forward is ABC", readForward(list).equals("ABC"));
+        check("backward is CBA", readBackward(list).equals("CBA"));
+        check("size is 3", list.size() == 3);
+        check("returns tail C", list.getTail() == nodeC);
+    }
+
+    
+
     public static void main(String[] args){
         testEmptyList();
+        testAddLast();
         System.out.println("Passed: " + passed + " Failed: " + failed);
     }
 }
