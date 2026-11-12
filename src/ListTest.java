@@ -55,11 +55,73 @@ public class ListTest {
         check("returns tail C", list.getTail() == nodeC);
     }
 
-    
+    private static void testRemove(){
+        DoublyLinkedList<String> list = new DoublyLinkedList<>();
+        Node<String> nodeA = list.addLast("A");
+        list.addLast("B");
+        Node<String> nodeC = list.addLast("C");
+        Node<String> nodeD = list.addLast("D");
+
+        check("remove returns data", list.remove(nodeC).equals("C"));
+        check("forward is ABD", readForward(list).equals("ABD"));
+        check("backward is DBA", readBackward(list).equals("DBA"));
+
+        list.remove(nodeA);
+        check("forward is BD", readForward(list).equals("BD"));
+        check("backward is DB", readBackward(list).equals("DB"));
+
+        list.remove(nodeD);
+        check("forward is B", readForward(list).equals("B"));
+        check("backward is B", readBackward(list).equals("B"));
+        check("remove: size is 1", list.size() == 1);
+
+    }
+
+    //pruning
+    private static void testRemoveFirst(){
+        DoublyLinkedList<String> list = new DoublyLinkedList<>();
+        list.addLast("A");
+        list.addLast("B");
+
+        check("removeFirst return A", list.removeFirst().equals("A"));
+        check("backward is B", readBackward(list).equals("B"));
+        check("removeFirst return B", list.removeFirst().equals("B"));
+        check("removeFirst on empty list", list.isEmpty());
+    }
+
+    private static void testRemoveAllAfter(){
+        DoublyLinkedList<String> list = new DoublyLinkedList<>();
+        list.addLast("A");
+        Node<String> nodeB = list.addLast("B"); // I am saving B to cut there
+        list.addLast("C");
+        list.addLast("D");
+
+        list.removeAllAfter(nodeB);
+        check("removeAllAfter: forward is ab", readForward(list).equals("ab"));
+        check("removeAllAfter: backward is ba", readBackward(list).equals("ba"));
+        check("removeAllAfter: b is the tail", list.getTail() == nodeB);
+        check("removeAllAfter: size is 2", list.size() == 2);
+    }
+
+    private static void testClear(){
+        DoublyLinkedList<String> list = new DoublyLinkedList<>();
+        list.addLast("A");
+        list.addLast("B");
+        list.clear();
+        check("list is empty", list.isEmpty());
+        check("no head or tail", list.getHead() == null && list.getTail() == null);
+    }
+
 
     public static void main(String[] args){
         testEmptyList();
         testAddLast();
+        testRemove();
+        testRemoveFirst();
+        testRemoveAllAfter();
+        testClear();
         System.out.println("Passed: " + passed + " Failed: " + failed);
     }
+
+    
 }
