@@ -13,7 +13,7 @@ public class Main {
 
     private static String readText(String prompt){
             System.out.print(prompt);
-            return scanner.nextLine();
+            return scanner.nextLine().trim();
         }
 
     private static String readUrl(String prompt){
@@ -69,7 +69,7 @@ public class Main {
             if(choice==1){
                 String url = readUrl("Enter URL: ");
                 history.visit(url);
-                System.out.println("Current URl: "+ url);
+                System.out.println("Current URL: "+ url);
             } else if(choice==2){
                 int steps = readSteps();
                 String url = history.back(steps);
@@ -91,8 +91,9 @@ public class Main {
                 history.displayHistory();
             }else if(choice == 6){
                 history.displayHistory(); //choose from
-                if(history.restoreLast()){
-                    System.out.println("Page restored");
+                int number = readNumber("Enter visit number to delete: ");
+                if(history.deleteByNumber(number)){
+                    System.out.println("Page deleted");
                 }
             }else if(choice==7){
                 if(history.restoreLast()){
