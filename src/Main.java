@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.io.IOException;
 
 /*1. Visit a page        6. Delete a page
 2. Back                7. Restore last deleted page
@@ -104,19 +105,19 @@ public class Main {
                 System.out.println("History cleared");
             }else if(choice==9){
                 String fileName = readText("Enter file name to export history: ");
-                int count = HistoryFileManager.exportHistory(history, fileName); //count
-                if(count == -1){
+                try {
+                    HistoryFileManager.exportHistory(history, fileName);
+                    System.out.println("History exported to " + fileName);
+                } catch (IOException e) {
                     System.out.println("Could not export history");
-                } else {
-                    System.out.println("Exported " + count + " pages to " + fileName);
                 }
             }else if(choice==10){
                 String fileName = readText("Enter file name to import history: ");
-                int count = HistoryFileManager.importHistory(history, fileName); 
-                if(count == -1){
+                try {
+                    HistoryFileManager.importHistory(history, fileName);
+                    System.out.println("History imported from " + fileName);
+                } catch (IOException e) {
                     System.out.println("Could not import history");
-                } else {
-                    System.out.println("Imported " + count + " pages from " + fileName);
                 }
             }else if(choice==0){
                 System.out.println("Exiting...");
