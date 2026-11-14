@@ -89,4 +89,90 @@ public class BrowserHistory {
         }
     }
 
+    public boolean deleteByNumber(int number) {
+        if (number < 1 || number > list.size()) {
+            return false;
+        }
+
+        Node<Page> node = list.getHead();
+
+        for (int i = 1; i < number; i++) {
+            node = node.next;
+        }
+
+        if (node == current) {
+            if (node.prev != null) {
+                current = node.prev;
+            } else {
+                current = node.next;
+            }
+        }
+
+        Page deletedPage = list.remove(node);
+        deletedPages.push(deletedPage);
+
+        return true;
+    }
+
+    public boolean restoreLast() {
+        if (deletedPages.isEmpty()) {
+            return false;
+        }
+
+        Page restoredPage = deletedPages.pop();
+
+        Node<Page> node = list.getHead();
+
+        while (node != null &&
+               node.data.getVisitNumber() <
+               restoredPage.getVisitNumber()) {
+            node = node.next;
+        }
+
+        Node<Page> restoredNode =
+            list.insertBefore(node, restoredPage);
+
+        if (current == null) {
+            current = restoredNode;
+        }
+
+        if (list.size() > capacity) {
+            Node<Page> first = list.getHead();
+
+            if (first == current) {
+                current = first.next;
+            }
+
+            list.removeFirst();
+        }
+
+        return true;
+    }
+
+    public void deleteHistory() {
+        list.clear();
+        current = null;
+        deletedPages.clear();
+    }
+
+    public void addImportedPage(String url, String time) {
+        Page page = new Page(url, nextVisitNumber, time);
+        nextVisitNumber++;
+
+        current = list.addLast(page);
+
+        if (list.size() > capacity) {
+            list.removeFirst();
+        }
+    }
+
+    public DoublyLinkedList<Page> getList() {
+        return list;
+    }
+
+    public int deletedCount() {
+        return deletedPages.size();
+    }
 }
+
+    
