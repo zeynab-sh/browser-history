@@ -97,8 +97,8 @@ public class ListTest {
         list.addLast("D");
 
         list.removeAllAfter(nodeB);
-        check("removeAllAfter: forward is ab", readForward(list).equals("ab"));
-        check("removeAllAfter: backward is ba", readBackward(list).equals("ba"));
+        check("removeAllAfter: forward is ab", readForward(list).equals("AB"));
+        check("removeAllAfter: backward is ba", readBackward(list).equals("BA"));
         check("removeAllAfter: b is the tail", list.getTail() == nodeB);
         check("removeAllAfter: size is 2", list.size() == 2);
     }
